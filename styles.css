@@ -1,0 +1,328 @@
+/* Estilos globais */
+* {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-image: url("https://socientifica.com.br/wp-content/uploads/2022/05/quatos-paises-existem-no-mundo.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: #fff;
+  overflow: hidden;
+  transition: background 2s ease;
+}
+
+/* Tema dinâmico */
+@keyframes changeBackground {
+  0% {
+    background-color: #1f4037;
+  }
+  100% {
+    background-color: #3498db;
+  }
+}
+
+body.theme-dynamic {
+  animation: changeBackground 10s infinite alternate;
+}
+
+/* Animação de entrada */
+.intro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to right, #2c3e50, #3498db);
+  color: #fff;
+  opacity: 0;
+  animation: fadeIn 2s forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+/* Tela Inicial */
+.screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 400px;
+  height: 250px;
+  background: rgb(80, 83, 85, 0.9);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  color: #fff;
+  animation: fadeInScreen 1.5s ease-in-out;
+  border: 3px solid #fff;
+}
+
+.screen h1 {
+  text-align: center;
+}
+
+@keyframes fadeInScreen {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+h1 {
+  font-size: 30px;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Botões gerais */
+button {
+  padding: 15px 30px;
+  font-size: 18px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+  background-color: #2980b9;
+  transform: scale(1.05);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+button:active {
+  transform: scale(0.95);
+  background-color: #1c6d98;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+#play-btn {
+  background-color: #ff7f50;
+}
+
+#play-btn:hover {
+  background-color: #ff6347;
+}
+
+#play-btn:active {
+  background-color: #e55d45;
+}
+
+/* Estilos do container principal do jogo */
+.game-container {
+  text-align: center;
+  background-color: rgba(28, 28, 30, 0.8);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  width: 400px;
+  animation: fadeInGame 1.2s ease-in-out;
+  transition: transform 1.5s ease;
+}
+
+@keyframes fadeInGame {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.flag-container {
+  margin: 20px 0;
+  position: relative;
+}
+
+/* Melhorando a transição das bandeiras */
+.flag-container img {
+  width: 100%;
+  height: auto;
+  max-width: 300px;
+  border: 4px solid #fff;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  animation: fadeInFlag 0.5s ease forwards;
+}
+
+@keyframes fadeInFlag {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.flag-hidden {
+  opacity: 0;
+  animation: fadeOutFlag 0.5s ease forwards;
+}
+
+.options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+  transition: opacity 0.5s ease; /* Sincronizado com a bandeira */
+}
+
+@keyframes fadeOutFlag {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+.option {
+  background-color: #3498db;
+  border: none;
+  padding: 15px;
+  font-size: 18px;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.option:hover {
+  background-color: #2980b9;
+  transform: scale(1.05);
+}
+
+.option.correct-answer {
+  background-color: #2ecc71;
+}
+
+.option.wrong-answer {
+  background-color: #e74c3c;
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+}
+
+.score-container {
+  margin-top: 20px;
+  font-size: 20px;
+  color: #ecf0f1;
+}
+
+/* Modal centralizado */
+.modal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  width: auto; /* Ajusta o tamanho conforme o conteúdo */
+  height: auto; /* Ajusta o tamanho conforme o conteúdo */
+  padding: 20px; /* Adiciona um espaçamento interno */
+  z-index: 1000; /* Certifique-se de que o modal esteja sempre por cima */
+  border: 2px solid #fff;
+}
+
+.modal-content {
+  background-color: rgba(44, 62, 80, 0.9);
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  color: white;
+  width: 300px;
+  animation: fadeInModal 0.8s ease-in-out;
+  position: relative;
+}
+
+@keyframes fadeInModal {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-content::before {
+  content: "🎉";
+  font-size: 3rem;
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#restart-btn {
+  margin-top: 20px;
+  padding: 10px 30px;
+  font-size: 18px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#restart-btn:hover {
+  background-color: #2980b9;
+}
+
+#restart-btn:active {
+  transform: scale(0.95);
+  background-color: #1c6d98;
+}

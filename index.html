@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adivinhe a Bandeira</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="shortcut icon" href="brasil.png" type="image/x-icon" />
+  </head>
+  <body>
+    <!-- Tela Inicial -->
+    <div id="initial-screen" class="screen hidden">
+      <h1>Adivinhe a Bandeira</h1>
+      <button id="play-btn">Iniciar Jogo</button>
+    </div>
+    <div id="intro-animation" class="intro">
+      <!-- Conteúdo da animação -->
+    </div>
+
+    <!-- Conteúdo do Jogo -->
+    <div class="game-container hidden" id="game-container">
+      <h1>Qual é o país?</h1>
+      <div class="flag-container">
+        <img id="flag" src="" alt="Bandeira" />
+      </div>
+      <div class="options-container">
+        <button class="option" id="option1"></button>
+        <button class="option" id="option2"></button>
+        <button class="option" id="option3"></button>
+        <button class="option" id="option4"></button>
+      </div>
+      <div class="score-container">
+        <p>Bandeira <span id="current-flag">1</span> de 25</p>
+      </div>
+      <button id="start-btn" style="display: none">Começar Jogo</button>
+    </div>
+
+    <!-- Modal de fim de jogo -->
+    <div id="end-modal" class="modal">
+      <div class="modal-content">
+        <h2>Fim do Jogo!</h2>
+        <p>Você acertou <span id="correct-count"></span> de 25 bandeiras!</p>
+        <button id="restart-btn">Jogar Novamente</button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
