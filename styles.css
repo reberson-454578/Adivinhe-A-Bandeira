@@ -252,9 +252,16 @@ button:active {
 }
 
 .score-container {
+  display: flex;
+  align-items: center; /* Alinha verticalmente o botão com o texto */
+  justify-content: center; /* Centraliza o conteúdo horizontalmente */
   margin-top: 20px;
   font-size: 20px;
   color: #ecf0f1;
+}
+
+.score-container p {
+  margin: 0; /* Remove o espaço extra do parágrafo */
 }
 
 /* Modal centralizado */
@@ -325,4 +332,25 @@ button:active {
 #restart-btn:active {
   transform: scale(0.95);
   background-color: #1c6d98;
+}
+
+#restart-btn-inline {
+  margin-left: 15px; /* Espaçamento entre a contagem de bandeiras e o botão */
+  padding: 10px 20px;
+  font-size: 14px;
+  background-color: #ff6347;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#restart-btn-inline:hover {
+  background-color: #e55d45;
+}
+
+#restart-btn-inline:active {
+  transform: scale(0.95);
+  background-color: #d0493b;
 }

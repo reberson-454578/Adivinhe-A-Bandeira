@@ -133,10 +133,26 @@ function endGame() {
   startButton.disabled = false;
 }
 
+const restartInlineButton = document.getElementById("restart-btn-inline");
+
+restartInlineButton.addEventListener("click", () => {
+  restartGame();
+});
+
+// Atualizar a função restartGame para resetar o estado completo do jogo
 function restartGame() {
-  endModal.style.display = "none";
-  gameContainer.style.display = "none";
-  initialScreen.style.display = "flex";
+  correctAnswers = 0;
+  currentFlagIndex = 1;
+  usedFlags.clear();
+  currentFlagElement.textContent = currentFlagIndex;
+  flagElement.src = ""; // Limpar a bandeira
+  options.forEach((option) => {
+    option.textContent = ""; // Limpar as opções
+    option.style.backgroundColor = "#4facfe"; // Resetar cor dos botões
+  });
+  endModal.style.display = "none"; // Esconder o modal de fim de jogo, se estiver aberto
+  startButton.disabled = true; // Garantir que o botão de iniciar continue desativado
+  nextFlag(); // Começar um novo jogo
 }
 
 function shuffleArray(array) {
