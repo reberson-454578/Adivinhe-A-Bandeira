@@ -8,46 +8,77 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@500;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="shortcut icon" href="brasil.png" type="image/x-icon" />
   </head>
   <body>
-    <!-- Tela Inicial -->
-    <div id="initial-screen" class="screen hidden">
-      <h1>Adivinhe a Bandeira</h1>
-      <button id="play-btn">Iniciar Jogo</button>
-    </div>
-    <div id="intro-animation" class="intro">
-      <!-- Conteúdo da animação -->
+    <div class="sky-layer sky-layer-1"></div>
+    <div class="sky-layer sky-layer-2"></div>
+    <div class="sparkles" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
     </div>
 
-    <!-- Conteúdo do Jogo -->
-    <div class="game-container hidden" id="game-container">
-      <h1>Qual é o país?</h1>
-      <div class="flag-container">
-        <img id="flag" src="" alt="Bandeira" />
-      </div>
-      <div class="options-container">
-        <button class="option" id="option1"></button>
-        <button class="option" id="option2"></button>
-        <button class="option" id="option3"></button>
-        <button class="option" id="option4"></button>
-      </div>
-      <div class="score-container">
-        <p>Bandeira <span id="current-flag">1</span> de 25</p>
-        <button id="restart-btn-inline">Reiniciar</button>
-      </div>
-      <button id="start-btn" style="display: none">Começar Jogo</button>
-    </div>
+    <main class="app-shell">
+      <section id="initial-screen" class="screen">
+        <div class="mascot-badge" aria-hidden="true">🌎</div>
+        <p class="eyebrow">Desafio cartoon</p>
+        <h1>Adivinhe a Bandeira</h1>
+        <p class="subtitle">25 rodadas, 4 opções, reflexos rápidos.</p>
+        <button id="play-btn" class="primary-btn">Jogar</button>
+      </section>
 
-    <!-- Modal de fim de jogo -->
-    <div id="end-modal" class="modal">
+      <section class="game-container hidden" id="game-container">
+        <div class="game-topbar">
+          <div class="title-wrap">
+            <p class="eyebrow">Rodada em andamento</p>
+            <h1>Qual é o país?</h1>
+          </div>
+          <button id="restart-btn-inline" class="secondary-btn">Reiniciar</button>
+        </div>
+
+        <div class="hud-row">
+          <div class="hud-card compact-card">
+            <span class="hud-label">Bandeira</span>
+            <strong><span id="current-flag">1</span> / 25</strong>
+          </div>
+          <div class="hud-card compact-card">
+            <span class="hud-label">Acertos</span>
+            <strong id="score-value">0</strong>
+          </div>
+        </div>
+
+        <div class="progress-track" aria-hidden="true">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+
+        <div class="flag-stage">
+          <div class="flag-card">
+            <div class="flag-glow"></div>
+            <img id="flag" src="" alt="Bandeira do país sorteado" />
+          </div>
+        </div>
+
+        <div class="options-container">
+          <button class="option" id="option1"></button>
+          <button class="option" id="option2"></button>
+          <button class="option" id="option3"></button>
+          <button class="option" id="option4"></button>
+        </div>
+      </section>
+    </main>
+
+    <div id="end-modal" class="modal" aria-hidden="true">
+      <div class="modal-backdrop"></div>
       <div class="modal-content">
-        <h2>Fim do Jogo!</h2>
-        <p>Você acertou <span id="correct-count"></span> de 25 bandeiras!</p>
-        <button id="restart-btn">Jogar Novamente</button>
+        <div class="modal-badge" aria-hidden="true">🏁</div>
+        <p class="eyebrow">Resultado final</p>
+        <h2>Fim do jogo</h2>
+        <p class="result-text">
+          Você acertou <span id="correct-count">0</span> de 25 bandeiras.
+        </p>
+        <button id="restart-btn" class="primary-btn">Jogar novamente</button>
       </div>
     </div>
 

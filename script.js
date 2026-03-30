@@ -4,46 +4,50 @@ let currentFlagIndex = 1;
 let correctAnswers = 0;
 let currentFlag = {};
 const totalFlags = 25;
-const delay = 1000; // Delay de 1 segundo para a próxima bandeira
+const delay = 950;
+let hasAnswered = false;
 
 const flagElement = document.getElementById("flag");
 const options = document.querySelectorAll(".option");
 const currentFlagElement = document.getElementById("current-flag");
-const startButton = document.getElementById("start-btn");
 const endModal = document.getElementById("end-modal");
 const correctCountElement = document.getElementById("correct-count");
 const restartButton = document.getElementById("restart-btn");
+const scoreValue = document.getElementById("score-value");
+const progressFill = document.getElementById("progress-fill");
 
-// Telas
 const initialScreen = document.getElementById("initial-screen");
 const playButton = document.getElementById("play-btn");
 const gameContainer = document.getElementById("game-container");
+const restartInlineButton = document.getElementById("restart-btn-inline");
 
 playButton.addEventListener("click", () => {
-  initialScreen.style.display = "none"; // Ocultar a tela inicial
-  gameContainer.style.display = "block"; // Mostrar o jogo
-  loadFlags(); // Iniciar o carregamento das bandeiras
+  initialScreen.classList.add("hidden");
+  gameContainer.classList.remove("hidden");
+  gameContainer.classList.add("show-panel");
+  loadFlags();
 });
 
 restartButton.addEventListener("click", restartGame);
+restartInlineButton.addEventListener("click", restartGame);
 
-// Função para carregar as bandeiras do arquivo JSON e pré-carregá-las
 function loadFlags() {
   fetch("flags.json")
     .then((response) => response.json())
     .then((data) => {
       flags = data;
-      preloadImages(flags); // Pré-carrega as imagens das bandeiras
-      startGame(); // Inicia o jogo após carregar as bandeiras
+      preloadImages(flags);
+      startGame();
     })
     .catch((error) => {
       console.error("Erro ao carregar o arquivo JSON:", error);
+      initialScreen.classList.remove("hidden");
+      gameContainer.classList.add("hidden");
       initialScreen.innerHTML =
-        "<p>Erro ao carregar as bandeiras. Tente novamente mais tarde.</p>";
+        '<div class="mascot-badge" aria-hidden="true">⚠️</div><h1>Erro ao abrir o jogo</h1><p class="subtitle">Não foi possível carregar as bandeiras.</p><button id="reload-btn" class="primary-btn" onclick="location.reload()">Tentar novamente</button>';
     });
 }
 
-// Função para pré-carregar as imagens
 function preloadImages(flags) {
   flags.forEach((flag) => {
     const img = new Image();
@@ -55,8 +59,9 @@ function startGame() {
   correctAnswers = 0;
   currentFlagIndex = 1;
   usedFlags.clear();
-  currentFlagElement.textContent = currentFlagIndex;
-  startButton.disabled = true;
+  hasAnswered = false;
+  endModal.classList.remove("show");
+  updateHud();
   nextFlag();
 }
 
@@ -66,6 +71,8 @@ function nextFlag() {
     return;
   }
 
+  hasAnswered = false;
+
   let randomFlagIndex;
   do {
     randomFlagIndex = Math.floor(Math.random() * flags.length);
@@ -74,42 +81,53 @@ function nextFlag() {
   usedFlags.add(randomFlagIndex);
   currentFlag = flags[randomFlagIndex];
 
+  flagElement.classList.remove("flag-pop");
   flagElement.classList.add("flag-hidden");
+
   setTimeout(() => {
     flagElement.src = currentFlag.flagUrl;
     flagElement.classList.remove("flag-hidden");
-    flagElement.classList.add("fadeInFlag");
-  }, 200); // Tempo reduzido para uma transição mais suave e rápida
+    flagElement.classList.add("flag-pop");
+  }, 180);
 
   let optionsArray = getRandomOptions(currentFlag);
   shuffleArray(optionsArray);
 
   options.forEach((option, index) => {
     option.textContent = optionsArray[index].country;
-    option.classList.remove("wrong-answer");
-    option.style.backgroundColor = "#4facfe";
+    option.classList.remove("wrong-answer", "correct-answer", "locked");
+    option.disabled = false;
     option.onclick = () => checkAnswer(option, option.textContent);
   });
 
-  currentFlagElement.textContent = currentFlagIndex;
+  updateHud();
 }
 
 function checkAnswer(optionElement, answer) {
+  if (hasAnswered) return;
+  hasAnswered = true;
+
+  options.forEach((option) => {
+    option.disabled = true;
+    option.classList.add("locked");
+  });
+
   if (answer === currentFlag.country) {
-    optionElement.style.backgroundColor = "#4caf50";
+    optionElement.classList.add("correct-answer");
     correctAnswers++;
   } else {
     optionElement.classList.add("wrong-answer");
-    optionElement.style.backgroundColor = "#ff4d4d";
 
     options.forEach((option) => {
       if (option.textContent === currentFlag.country) {
-        option.style.backgroundColor = "#4caf50";
+        option.classList.add("correct-answer");
       }
     });
   }
 
   currentFlagIndex++;
+  updateHud();
+
   setTimeout(() => {
     nextFlag();
   }, delay);
@@ -129,30 +147,32 @@ function getRandomOptions(correctFlag) {
 
 function endGame() {
   correctCountElement.textContent = correctAnswers;
-  endModal.style.display = "block";
-  startButton.disabled = false;
+  endModal.classList.add("show");
+  endModal.setAttribute("aria-hidden", "false");
 }
 
-const restartInlineButton = document.getElementById("restart-btn-inline");
-
-restartInlineButton.addEventListener("click", () => {
-  restartGame();
-});
-
-// Atualizar a função restartGame para resetar o estado completo do jogo
 function restartGame() {
   correctAnswers = 0;
   currentFlagIndex = 1;
   usedFlags.clear();
-  currentFlagElement.textContent = currentFlagIndex;
-  flagElement.src = ""; // Limpar a bandeira
+  hasAnswered = false;
+  flagElement.src = "";
   options.forEach((option) => {
-    option.textContent = ""; // Limpar as opções
-    option.style.backgroundColor = "#4facfe"; // Resetar cor dos botões
+    option.textContent = "";
+    option.classList.remove("wrong-answer", "correct-answer", "locked");
+    option.disabled = false;
   });
-  endModal.style.display = "none"; // Esconder o modal de fim de jogo, se estiver aberto
-  startButton.disabled = true; // Garantir que o botão de iniciar continue desativado
-  nextFlag(); // Começar um novo jogo
+  endModal.classList.remove("show");
+  endModal.setAttribute("aria-hidden", "true");
+  updateHud();
+  nextFlag();
+}
+
+function updateHud() {
+  currentFlagElement.textContent = Math.min(currentFlagIndex, totalFlags);
+  scoreValue.textContent = correctAnswers;
+  const progress = ((currentFlagIndex - 1) / totalFlags) * 100;
+  progressFill.style.width = `${Math.max(0, Math.min(progress, 100))}%`;
 }
 
 function shuffleArray(array) {
